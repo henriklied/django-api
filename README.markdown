@@ -1,7 +1,7 @@
 # django-api
 **Very early in development**
 
-The aim of this project is to make it easier to create a public API for your site.
+The aim of this project is to make it easier to create a manageable, public API for your site.
 In it's current form it only makes displaying API documentation very easy, but the rest of the features are in development.
 
 Features:
