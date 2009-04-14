@@ -7,6 +7,7 @@ Be aware that this project in no way seeks to help you create an underlying API 
 This project tries to be language agnostic. django_api doesn't care what language your API is originally written in. It only acts as a gateway between the user and the underlying API.
 
 Current features:
+    - Transparent API proxy for external developers / users
     - Automatic documentation for each API method (with automatic sample usage in Python)
     - API rate limiting
     - Usage monitoring (currently through the admin, not good enough)
@@ -25,7 +26,7 @@ Planned features:
 ## Installation
 - Add the 'django_api' directory somewhere on your 'PYTHONPATH'
 - Put 'django_api' into 'INSTALLED_APPS' in your projects' settings file.
-- Open django_api/app_settings.py and either fill out your settings there, or add them
+- Open django_api/app_settings.py and either fill out your settings there, or add them to your global settings file.
 
 - Add this line to your Django project's urlconf: 
     url(r'^api/', include('django_api.urls')),

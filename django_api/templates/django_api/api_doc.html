@@ -123,7 +123,7 @@
                     <h4>Example usage (in python):</h4>
 <pre>
 import urllib, httplib
-def api_call():
+def api_{{ method.name }}_{{ method.response_format|lower }}():
     parameters = {
         'api_key': 'YOUR_API_KEY',{% for parameter in method.required_parameters %}
         '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',
@@ -134,6 +134,7 @@ def api_call():
     connection = httplib.HTTPConnection('{{ method.api_settings.domain}}')
     connection.request('{{ method.http_method }}', '{{ method.api_settings.base_path }}{{ method.name}}', parameters)
     response = connection.getresponse()
+    print "HTTP STATUS: ", response.status, response.reason
     response_text = response.read()
     return response_text
 </pre>
