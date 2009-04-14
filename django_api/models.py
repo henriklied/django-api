@@ -41,7 +41,7 @@ class APIMethod(models.Model):
     name = models.CharField(unique=True, max_length=255, help_text="Do not use spaces. Only lowercase characters.")
     http_method = models.CharField(max_length=4, choices=HTTP_METHODS)
     response_format = models.CharField(max_length=10, choices=RESPONSE_FORMATS)
-    internal_url = models.CharField(max_length=255, help_text="The original URL for the internal API. We'll request this page silently from your users, and deliver the content back to them.")
+    internal_url = models.CharField(max_length=255, help_text="The original URL for the internal API. We'll request this page silently from your users, and deliver the content back to them. You can include related parameters in this string, e.g. /get_user/{ username }/, and the app will parse these conditions when executed.")
     allowed_parameters = models.ManyToManyField(APIParameter)
     description = models.TextField(blank=True, help_text="Write a small text to describe the API")
     active = models.BooleanField(default=True, help_text="Is the current API method active?")
@@ -69,12 +69,12 @@ class APIMethod(models.Model):
         }
 
 class APIKey(models.Model):
-    key = models.CharField(max_length=255)
+    key = models.CharField(max_length=255, blank=True)
     created = models.DateTimeField()
     active = models.BooleanField(default=False)
     
     def __unicode__(self):
-        return self.key
+        return str(self.key)
     
     def save(self):
         now = datetime.datetime.now()
@@ -100,7 +100,12 @@ class APIKey(models.Model):
 class APIKeyUsage(models.Model):
     key = models.ForeignKey(APIKey)
     method = models.ForeignKey(APIMethod)
-    when = models.DateTimeField()
+    when = models.DateTimeField(blank=True)
+    
+    def save(self):
+        if not self.when:
+            self.when = datetime.datetime.now()
+        super(APIKeyUsage, self).save()
     
     def __unicode__(self):
-        return self.key
+        return self.key.key

@@ -1,6 +1,6 @@
 from django.http import *
 
-import httplib, urllib
+import httplib, urllib, uri
 
 from django_api.models import *
 from django_api.utils.http_methods import *
@@ -43,13 +43,17 @@ def api_request(request, api_name):
         return HttpResponseWrongHttpMethod(request.method, api_method.http_method)
     
     
-    params = urllib.urlencode(request.REQUEST.__dict__)
+    params = getattr(request, api_method.http_method)
+    #assert False
+    # Compile the internal URL using parameters
+    internal_url = api_method.internal_url
+    
     
     # Connect to the internal api domain / ip
     # 
     # (If there's only one, you can move the line below outside the function.)
     connection = httplib.HTTPConnection(INTERNAL_API_DOMAIN)
-    connection.request(request.method, '%s%s' % (INTERNAL_API_BASE_PATH, api_method.internal_url), params)
+    connection.request(request.method, '%s%s' % (INTERNAL_API_BASE_PATH, internal_url), urllib.urlencode(params))
     response = connection.getresponse()
     
     response_data = response.read()
@@ -67,7 +71,7 @@ def api_request(request, api_name):
         
         Internal API response:
         %s
-        """ % (INTERNAL_API_DOMAIN, INTERNAL_API_BASE_PATH, api_method.internal_url, response.status, response_data)
+        """ % (INTERNAL_API_DOMAIN, INTERNAL_API_BASE_PATH, internal_url, response.status, response_data)
         mail_admins('Error in API call', message)
         return HttpResponseUnknownError()
     

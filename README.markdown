@@ -15,6 +15,7 @@ Features:
 ## Requirements
 - Django 1.0 (or trunk)
 - simplejson
+- [uri](http://github.com/jacobian/uri/tree/master) by Jacob Kaplan-Moss
 
 ## Installation
 Add the 'django_api' directory somewhere on your 'PYTHONPATH', put it into 'INSTALLED_APPS' in your settings file.

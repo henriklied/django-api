@@ -123,20 +123,19 @@
                     <h4>Example usage (in python):</h4>
 <pre>
 import urllib, httplib
-parameters = {
-    'api_key': 'YOUR_API_KEY',{% for parameter in method.required_parameters %}
-    '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',
-    {% endfor %}{% for parameter in method.optional_parameters %}
-    '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',{% endfor %}
-}
-parameters = urllib.urlencode(parameters)
-connection = httplib.HTTPConnection('{{ method.api_settings.domain}}')
-connection.request('{{ method.http_method }}', '{{ method.api_settings.base_path }}{{ method.name}}', parameters)
-
-response = connection.getresponse()
-response_text = response.read()
-
-print response_text
+def api_call():
+    parameters = {
+        'api_key': 'YOUR_API_KEY',{% for parameter in method.required_parameters %}
+        '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',
+        {% endfor %}{% for parameter in method.optional_parameters %}
+        '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',{% endfor %}
+    }
+    parameters = urllib.urlencode(parameters)
+    connection = httplib.HTTPConnection('{{ method.api_settings.domain}}')
+    connection.request('{{ method.http_method }}', '{{ method.api_settings.base_path }}{{ method.name}}', parameters)
+    response = connection.getresponse()
+    response_text = response.read()
+    return response_text
 </pre>
                 </div>
             {% endfor %}
