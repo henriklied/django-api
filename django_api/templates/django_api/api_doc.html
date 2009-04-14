@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>API Documentation</title>
+        <style>
+        
+        body {
+            background: white;
+            font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+            font-size: 80%;
+            line-height: 1.5;
+            color: #111;
+        }
+        
+        #wrap {
+            width: 600px;
+            margin: 2em auto;
+        }
+        .api_method {
+            background: #f4f4f4;
+            padding: 0 20px 10px 20px;
+            margin: 20px 0;
+            border: 1px solid #f1f1f1;
+        }
+        
+        p, dl, ul {
+            font-size: 11px;
+        }
+        
+        
+        pre {
+            background: white;
+            padding: 10px;
+            border: 1px solid #f1f1f1;
+        }
+        
+        h3 small {
+            color: #777;
+            padding-left: 5px;
+        }
+        dl {
+            padding: 0;
+            margin: 0;
+        }
+        dd, dt {
+            float: left;
+        }
+        dt {
+            clear: left;
+            width: 100px;
+            font-weight: bold;
+        }
+        
+        h2,h3,h4,p {
+            clear: both;
+        }
+        h4 {
+            margin-bottom: 5px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+        .clearer {
+            clear: both;
+        }
+        
+        </style>
+    </head>
+    
+    <body>
+        <div id="wrap">
+            <h1>API Documentation</h1>
+            <p>This is the API documentation for [insert site name here]</p>
+            
+            <h2>Table of contents – API methods</h2>
+            <ul>
+                {% for method in api_methods %}
+                    <li><a href="#{{ method.name }}_{{ method.response_format }}">{{ method.name }}</a></li>
+                {% endfor %}
+            </ul>
+            
+            <h2>API methods</h2>
+            
+            {% for method in api_methods %}
+                <div id="{{ method.name }}_{{ method.response_format }}" class="api_method">
+                    <h3>{{ method.name }} <small>http://{{ method.get_full_url }}</small></h3>
+                    {{ method.description|linebreaks }}
+                    <dl>
+                        <dt>Response format:</dt>
+                        <dd>{{ method.get_response_format_display }}</dd>
+                        
+                        <dt>HTTP Method:</dt>
+                        <dd>{{ method.http_method }}</dd>
+                    </dl>
+                    <div class="clearer"></div>
+                    
+                    <h4>Required parameters</h4>
+                    <dl>
+                        <dt>api_key</dt>
+                        <dd>Your API key</dd>
+                        
+                        {% for parameter in method.required_parameters %}
+                            <dt>{{ parameter.name }}</dt>
+                            <dd>{{ parameter.description }} <em>({{ parameter.get_value_display|lower }})</em></dd>
+                        {% endfor %}
+                    </dl>
+                    
+                    <div class="clearer"></div>
+                    
+                    
+                    {% if method.optional_parameters %}
+                        <h4>Optional parameters</h4>
+                        <dl>
+                            {% for parameter in method.optional_parameters %}
+                                <dt>{{ parameter.name }}</dt>
+                                <dd>{{ parameter.description }} <em>({{ parameter.get_value_display|lower }})</em></dd>
+                            {% endfor %}
+                        </dl>
+                    {% endif %}
+                    
+                    <div class="clearer"></div>
+                    
+                    <h4>Example usage (in python):</h4>
+<pre>
+import urllib, httplib
+parameters = {
+    'api_key': 'YOUR_API_KEY',{% for parameter in method.required_parameters %}
+    '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',
+    {% endfor %}{% for parameter in method.optional_parameters %}
+    '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',{% endfor %}
+}
+parameters = urllib.urlencode(parameters)
+connection = httplib.HTTPConnection('{{ method.api_settings.domain}}')
+connection.request('{{ method.http_method }}', '{{ method.api_settings.base_path }}{{ method.name}}', parameters)
+
+response = connection.getresponse()
+response_text = response.read()
+
+print response_text
+</pre>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </body>
+</html>
