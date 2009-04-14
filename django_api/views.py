@@ -78,7 +78,10 @@ def api_request(request, api_name):
 
 
 def api_doc(request):
-    api_methods = APIMethod.objects.filter()
+    """
+    Returns the generated API documentation using all active API methods.
+    """
+    api_methods = APIMethod.objects.filter(active=True)
     return render(request, 'django_api/api_doc.html', 
         {'api_methods': api_methods}
     )
