@@ -18,7 +18,6 @@ Planned features:
 
 
 
-
 ## Requirements
 - Django 1.0 (or trunk)
 - simplejson

@@ -75,14 +75,14 @@
             <h2>Table of contents – API methods</h2>
             <ul>
                 {% for method in api_methods %}
-                    <li><a href="#{{ method.name }}_{{ method.response_format }}">{{ method.name }}</a></li>
+                    <li><a href="#{{ method.name }}_{{ method.response_format|lower }}">{{ method.name }}</a></li>
                 {% endfor %}
             </ul>
             
             <h2>API methods</h2>
             
             {% for method in api_methods %}
-                <div id="{{ method.name }}_{{ method.response_format }}" class="api_method">
+                <div id="{{ method.name }}_{{ method.response_format|lower }}" class="api_method">
                     <h3>{{ method.name }} <small>http://{{ method.get_full_url }}</small></h3>
                     {{ method.description|linebreaks }}
                     <dl>
