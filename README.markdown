@@ -1,27 +1,34 @@
 # django-api
-**Very early in development**
+**Very early in development – but it works**
 
 The aim of this project is to make it easier to create a manageable, public API for your site.
-In it's current form it only makes displaying API documentation very easy, but the rest of the features are in development.
+Be aware that this project in no way seeks to help you create an underlying API – that's up to you.
 
-Features:
-    - Automatic documentation for each API method (with sample usage in Python)
-    - Application for API keys and management of these
+This project tries to be language agnostic. django_api doesn't care what language your API is originally written in. It only acts as a gateway between the user and the underlying API.
+
+Current features:
+    - Automatic documentation for each API method (with automatic sample usage in Python)
     - API rate limiting
-    - Usage monitoring
+    - Usage monitoring (currently through the admin, not good enough)
+
+Planned features:
+    - Users should be able to apply for API keys, as they can using other services (e.g. Mashery)
+    - Dedicated API admin panel
+    - Transparent caching layers for intensive and much-used methods
+
 
 
 
 ## Requirements
 - Django 1.0 (or trunk)
 - simplejson
-- [uri](http://github.com/jacobian/uri/tree/master) by Jacob Kaplan-Moss
 
 ## Installation
-Add the 'django_api' directory somewhere on your 'PYTHONPATH', put it into 'INSTALLED_APPS' in your settings file.
-Fill in your information either in 'django_api/app_settings.py' or in your global settings file.
+- Add the 'django_api' directory somewhere on your 'PYTHONPATH'
+- Put 'django_api' into 'INSTALLED_APPS' in your projects' settings file.
+- Open django_api/app_settings.py and either fill out your settings there, or add them
 
 - Add this line to your Django project's urlconf: 
     url(r'^api/', include('django_api.urls')),
 
-You're good to go!
+Then go to the admin interface and add your URLs!

@@ -41,7 +41,7 @@ class APIMethod(models.Model):
     name = models.CharField(unique=True, max_length=255, help_text="Do not use spaces. Only lowercase characters.")
     http_method = models.CharField(max_length=4, choices=HTTP_METHODS)
     response_format = models.CharField(max_length=10, choices=RESPONSE_FORMATS)
-    internal_url = models.CharField(max_length=255, help_text="The original URL for the internal API. We'll request this page silently from your users, and deliver the content back to them. You can include related parameters in this string, e.g. /get_user/{ username }/, and the app will parse these conditions when executed.")
+    internal_url = models.CharField(max_length=255, help_text="The original URL for the internal API. We'll request this page silently from your users, and deliver the content back to them.")
     allowed_parameters = models.ManyToManyField(APIParameter)
     description = models.TextField(blank=True, help_text="Write a small text to describe the API")
     active = models.BooleanField(default=True, help_text="Is the current API method active?")
