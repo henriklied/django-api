@@ -31,4 +31,4 @@ Planned features:
 - Add this line to your Django project's urlconf: 
     url(r'^api/', include('django_api.urls')),
 
-Then go to the admin interface and add your URLs!
+Then go to the admin interface and add your URLs! :)
