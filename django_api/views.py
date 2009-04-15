@@ -45,15 +45,24 @@ def api_request(request, api_name):
     
     params = getattr(request, api_method.http_method)
     #assert False
-    # Compile the internal URL using parameters
+    
     internal_url = api_method.internal_url
     
     
+    # Check that the request has all the required api parameters.
+    if not set(params.__dict__) >= set([param.name for param in api_method.required_parameters()]):
+        return HttpResponse('To complete this API call, you must provide the following parameter(s): %s' % ", ".join([param.name for param in api_method.required_parameters()]))
+        
     # Connect to the internal api domain / ip
     # 
     # (If there's only one, you can move the line below outside the function.)
     connection = httplib.HTTPConnection(INTERNAL_API_DOMAIN)
-    connection.request(request.method, '%s%s' % (INTERNAL_API_BASE_PATH, internal_url), urllib.urlencode(params))
+    
+    # httplib needs the params in the body when POSTing, and in the URL white GETing
+    if request.method == 'POST':
+        connection.request(request.method, '%s%s' % (INTERNAL_API_BASE_PATH, internal_url), urllib.urlencode(params))
+    else:
+        connection.request(request.method, '%s%s?%s' % (INTERNAL_API_BASE_PATH, internal_url, urllib.urlencode(params)))
     response = connection.getresponse()
     
     response_data = response.read()
@@ -63,18 +72,8 @@ def api_request(request, api_name):
     # 
     # An email is sent to the admins with the error.
     #
-    if response.status != 200:
-        from django.core.mail import mail_admins
-        message = """
-        An error occured when trying to fetch %s%s%s.
-        Internal API HTTP status code: HTTP %d
-        
-        Internal API response:
-        %s
-        """ % (INTERNAL_API_DOMAIN, INTERNAL_API_BASE_PATH, internal_url, response.status, response_data)
-        mail_admins('Error in API call', message)
-        return HttpResponseUnknownError()
     
+   
     # This function inserts an API hit into the database.
     # It should be called right before we deliver the content back to the user.
     register_api_usage(api_method, api_key)
