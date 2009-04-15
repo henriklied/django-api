@@ -124,7 +124,8 @@
 <pre>
 import urllib, httplib
 API_KEY = 'YOUR_API_KEY'
-def api_{{ method.name }}_{{ method.response_format|lower }}(api_key=API_KEY):
+def api_{{ method.name }}_{{ method.response_format|lower }}(api_key=None):
+    api_key = api_key or API_KEY
     parameters = {
         'api_key': api_key,{% for parameter in method.required_parameters %}
         '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',

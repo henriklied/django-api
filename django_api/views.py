@@ -2,7 +2,7 @@ from django.http import *
 
 import httplib, urllib, uri
 
-from django_api.models import *
+from django_api.models import APIMethod, APIKey, API_KEYS
 from django_api.utils.http_methods import *
 from django_api.utils.etc import *
 from django_api.utils import render
@@ -22,10 +22,10 @@ def api_request(request, api_name):
     
     # Check that the supplied API key is in the registry.
     # This should probably be a list in memcached, for performance sake
-    try:
-        api_key = APIKey.objects.get(key=request.REQUEST.get('api_key'), active=True)
-    except:
+    if not request.REQUEST.get('api_key') in API_KEYS:
         return HttpResponseNonValidAPIKey()
+    
+    api_key = request.REQUEST.get('api_key')
     
     # Get the number of requests made by the API key
     # and check if the user is above his/her limit.
@@ -86,5 +86,5 @@ def api_doc(request):
     """
     api_methods = APIMethod.objects.filter(active=True)
     return render(request, 'django_api/api_doc.html', 
-        {'api_methods': api_methods}
+        {'api_methods': api_methods,}
     )

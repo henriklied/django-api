@@ -22,6 +22,9 @@ REQUIRED_CHOICES = (
     ('REQ', 'Required'),
 )
 
+
+API_KEYS = []
+
 class APIParameter(models.Model):
     name = models.CharField(max_length=200)
     value = models.CharField(max_length=20, choices=API_VALUE_TYPES)
@@ -83,6 +86,7 @@ class APIKey(models.Model):
         
         if not self.key:
             self.key = self.generate_key()
+        API_KEYS.append(self.key)
         super(APIKey, self).save()
             
             
@@ -109,3 +113,8 @@ class APIKeyUsage(models.Model):
     
     def __unicode__(self):
         return self.key.key
+        
+
+
+for key in APIKey.objects.all():
+    API_KEYS.append(key.key)
