@@ -50,7 +50,7 @@ def api_request(request, api_name):
     
     
     # Check that the request has all the required api parameters.
-    if not set(params.__dict__) >= set([param.name for param in api_method.required_parameters()]):
+    if not set(params) >= set([param.name for param in api_method.required_parameters()]):
         return HttpResponse('To complete this API call, you must provide the following parameter(s): %s' % ", ".join([param.name for param in api_method.required_parameters()]))
         
     # Connect to the internal api domain / ip

@@ -1,5 +1,5 @@
 # django-api
-**Very early in development – but it works**
+**Pretty early in development – but it works very well**
 
 The aim of this project is to make it easier to create a manageable, public API for your site.
 Be aware that this project in no way seeks to help you create an underlying API – that's up to you.

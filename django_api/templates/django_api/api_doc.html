@@ -123,16 +123,23 @@
                     <h4>Example usage (in python):</h4>
 <pre>
 import urllib, httplib
-def api_{{ method.name }}_{{ method.response_format|lower }}():
+API_KEY = 'YOUR_API_KEY'
+def api_{{ method.name }}_{{ method.response_format|lower }}(api_key=API_KEY):
     parameters = {
-        'api_key': 'YOUR_API_KEY',{% for parameter in method.required_parameters %}
+        'api_key': api_key,{% for parameter in method.required_parameters %}
         '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',
         {% endfor %}{% for parameter in method.optional_parameters %}
         '{{ parameter.name }}': '{{ parameter.get_value_display|lower }}',{% endfor %}
     }
     parameters = urllib.urlencode(parameters)
     connection = httplib.HTTPConnection('{{ method.api_settings.domain}}')
+    {% spaceless %}
+    {% ifequal method.http_method "POST"  %}
     connection.request('{{ method.http_method }}', '{{ method.api_settings.base_path }}{{ method.name}}', parameters)
+    {% else %}
+    connection.request('{{ method.http_method }}', '{{ method.api_settings.base_path }}{{ method.name}}?%s' % (parameters))
+    {% endifequal %}
+    {% endspaceless %}
     response = connection.getresponse()
     print "HTTP STATUS: ", response.status, response.reason
     response_text = response.read()
