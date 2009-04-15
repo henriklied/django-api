@@ -1,5 +1,6 @@
 # django-api
 **Pretty early in development – but it works very well**
+**Check out the [screenshots](http://wiki.github.com/henriklied/django-api)**
 
 The aim of this project is to make it easier to create a manageable, public API for your site.
 Be aware that this project in no way seeks to help you create an underlying API – that's up to you.

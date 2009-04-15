@@ -42,7 +42,7 @@ class APIMethod(models.Model):
     http_method = models.CharField(max_length=4, choices=HTTP_METHODS)
     response_format = models.CharField(max_length=10, choices=RESPONSE_FORMATS)
     internal_url = models.CharField(max_length=255, help_text="The original URL for the internal API. We'll request this page silently from your users, and deliver the content back to them.")
-    allowed_parameters = models.ManyToManyField(APIParameter)
+    allowed_parameters = models.ManyToManyField(APIParameter, blank=True, null=True)
     description = models.TextField(blank=True, help_text="Write a small text to describe the API")
     active = models.BooleanField(default=True, help_text="Is the current API method active?")
     

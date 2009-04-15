@@ -58,7 +58,7 @@ def api_request(request, api_name):
     # (If there's only one, you can move the line below outside the function.)
     connection = httplib.HTTPConnection(INTERNAL_API_DOMAIN)
     
-    # httplib needs the params in the body when POSTing, and in the URL white GETing
+    # httplib needs the params in the body when POSTing, and in the URL while GETing
     if request.method == 'POST':
         connection.request(request.method, '%s%s' % (INTERNAL_API_BASE_PATH, internal_url), urllib.urlencode(params))
     else:
