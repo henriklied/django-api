@@ -1,0 +1,26 @@
+{% extends "django_api/base.html" %}
+
+{% block title %}{{ settings.SITE_NAME }} API{% endblock %}
+
+{% block extrahead %}
+    <style>
+        a span {
+            display: none;
+            color: red;
+            font-weight: bold;
+        }
+        a:hover span {
+            display: inline;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <p>Welcome to the {{ settings.SITE_NAME }} API documentation. Below you will find several choices:</p>
+    
+    <ul>
+        <li><a href="">Register for an API key <span>Not ready!</span></a></li>
+        <li><a href="{% url django_api_views_api_doc %}">View the documentation</a></li>
+        
+    </ul>
+{% endblock %}

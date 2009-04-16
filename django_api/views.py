@@ -9,6 +9,17 @@ from django_api.utils import render
 from django_api.app_settings import *
 
 
+def frontpage(request):
+    return render(request, 'django_api/frontpage.html')
+
+def api_doc(request):
+    """
+    Returns the generated API documentation using all active API methods.
+    """
+    api_methods = APIMethod.objects.filter(active=True)
+    return render(request, 'django_api/api_doc.html', 
+        {'api_methods': api_methods,}
+    )
 
 def api_request(request, api_name):
     """
@@ -80,11 +91,3 @@ def api_request(request, api_name):
     return HttpResponse(response_data)
 
 
-def api_doc(request):
-    """
-    Returns the generated API documentation using all active API methods.
-    """
-    api_methods = APIMethod.objects.filter(active=True)
-    return render(request, 'django_api/api_doc.html', 
-        {'api_methods': api_methods,}
-    )

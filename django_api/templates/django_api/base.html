@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>API Documentation</title>
+        
+        
+        {% block extrahead %}
+            
+        {% endblock %}
+        <style>
+        
+        body {
+            background: white;
+            font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+            font-size: 80%;
+            line-height: 1.5;
+            color: #111;
+        }
+        
+        #wrap {
+            width: 600px;
+            margin: 2em auto;
+        }
+        .api_method {
+            background: #f4f4f4;
+            padding: 0 20px 10px 20px;
+            margin: 20px 0;
+            border: 1px solid #f1f1f1;
+        }
+        
+        p, dl, ul {
+            font-size: 11px;
+        }
+        
+        
+        pre {
+            background: white;
+            padding: 10px;
+            border: 1px solid #f1f1f1;
+        }
+        
+        h3 small {
+            color: #777;
+            padding-left: 5px;
+        }
+        dl {
+            padding: 0;
+            margin: 0;
+        }
+        dd, dt {
+            float: left;
+        }
+        dt {
+            clear: left;
+            width: 100px;
+            font-weight: bold;
+        }
+        
+        h2,h3,h4,p {
+            clear: both;
+        }
+        h4 {
+            margin-bottom: 5px;
+            margin-top: 20px;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+        .clearer {
+            clear: both;
+        }
+        
+        </style>
+    </head>
+    
+    <body>
+        <div id="wrap">
+            <h1>{{ settings.SITE_NAME }} API</h1>
+            {% block main_content %}
+                
+            {% endblock %}
+        </div>
+    </body>
+</html>
